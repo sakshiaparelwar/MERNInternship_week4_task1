@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="system">
+      <h2>Library Managment System</h2>
+      <form id="Libraryform">
+        <label for="Title">Title</label>
+        <input type="text" id="Title" />
+        <label for="authur">Author</label>
+        <input type="text" id="authur" />
+        <label for="pages">Pages</label>
+        <input type="number" id="pages" />
+        <label for="Genre">Genre</label>
+        <input type="text" id="Genre" />
+        <button type="submit">Submit</button>
+      </form>
+      <div>
+        <input type="text" id="search" placeholder="Search..." />
+        <button onclick="searchBooks()" id="btn">Search</button>
+      </div>
+      <div id="display"></div>
+    </div>
+    <script>
+      let list = [];
+      const Libraryform = document.getElementById("Libraryform");
+      Libraryform.addEventListener("submit", (e) => {
+        event.preventDefault();
+        const Title = document.getElementById("Title").value;
+        const Auther = document.getElementById("authur").value;
+        const Pages = document.getElementById("pages").value;
+        const Genre = document.getElementById("Genre").value;
+        if (Title && Auther && Pages && Genre) {
+          let book = {
+            Title: Title,
+            Auther: Auther,
+            Pages: Pages,
+            Genre: Genre,
+          };
+          list.push(book);
+          displayBooks();
+        } else {
+          alert("Please fill in all fields.");
+        }
+      });
+      function searchBooks() {
+        let search = document.getElementById("search").value.toLowerCase();
+        let searchResult = list.filter((book) =>
+          book.Title.toLowerCase().includes(search)
+        );
+        displayBooks(searchResult);
+      }
+
+      // const para = document.createElement("p");
+      // para.innerHTML = Title + " " + Auther;
+      // console.log(Title, Auther);
+
+      function displayBooks(books = list) {
+        const display = document.getElementById("display");
+        display.innerHTML = "";
+
+        books.forEach((book) => {
+          let div = document.createElement("div");
+          div.classList.add("book");
+          div.innerHTML = `<h3>${book.Title}</h3>
+           <p>Author:${book.Auther}</p>
+           <p>Pages:${book.Pages}</p>
+           <p>Genre:${book.Genre}</p>
+           <br>`;
+          display.appendChild(div);
+        });
+      }
+    </script>
+  </body>
+</html>
